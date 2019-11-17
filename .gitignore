@@ -1,0 +1,14 @@
+
+# IDE
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv
+.mypy_cache/
+
+# App-specific
+/data/
