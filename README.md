@@ -1,6 +1,8 @@
 A Totally Bad Pig Server
 ------------------------
 
+A _totally_ pointless server that stores pigs for no good reason.
+
 Usage
 -----
 
