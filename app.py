@@ -4,19 +4,16 @@ import sys
 import re
 import random
 import uuid
-import os.path
-from bottle import route, template, view, request
+from pathlib import Path
+from typing import Optional
+from bottle import route, view, request
 from document import DocumentManager, DocumentStore
 
-if sys.version_info.major == 2:
-    from codecs import open
 
-BASE_PATH = os.path.abspath(os.path.dirname(__file__))
+BASE_PATH = Path(__file__).parent.resolve()
 
 
-doc_mgr = DocumentManager(
-    doc_store=DocumentStore(base_path=os.path.join(BASE_PATH, "data"))
-)
+doc_mgr = DocumentManager(doc_store=DocumentStore(base_path=BASE_PATH / "data"))
 
 
 @route("/pig", method="GET")
@@ -40,14 +37,14 @@ def pig_new_redirect():
 @route("/pig/new", method="GET")
 @route("/pig/<key:re:[0-9a-fA-F]{32}>/edit", method="GET")
 @view("edit")
-def edit_pig(key=None):
+def edit_pig(key: Optional[str] = None):
     doc = doc_mgr.get_or_new(key)
     return {"key": doc.key, "name": doc.name, "data": doc.data}
 
 
 @route("/pig/<key:re:[0-9a-fA-F]{32}>/update", method="POST")
 @view("update")
-def update_pig(key):
+def update_pig(key: str):
     doc = doc_mgr.get_or_new(key)
     doc.name = request.forms.get("name")
     doc.data = request.forms.get("data")
