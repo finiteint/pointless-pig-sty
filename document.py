@@ -97,7 +97,8 @@ class DocumentManager:
         return doc if doc else self.new()
 
     def new(self) -> Document:
-        return Document(new_doc_key())
+        key = uuid.uuid4().hex.lower()
+        return Document(key)
 
     def load(self, key: Optional[str]) -> Optional[Document]:
         key = validated_document_key(key)
@@ -118,8 +119,7 @@ def validated_document_key(key: Optional[str]) -> Optional[str]:
     return key if re.search(r"^[0-9a-f]{32}$", key) else None
 
 
-def new_doc_key() -> str:
-    return uuid.uuid4().hex.lower()
+
 
 
 def normalize_name(name: Optional[str]) -> str:
